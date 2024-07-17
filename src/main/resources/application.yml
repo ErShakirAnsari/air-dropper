@@ -1,3 +1,22 @@
+server:
+  port: 9091
+  servlet:
+    contextPath: /greedy-ghost-token
+
 spring:
   profiles:
     active: dev
+
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/greedy_ghost_token
+    username: shakir
+    password: "Apple#1M"
+
+  jpa:
+    defer-datasource-initialization: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate #create|update|create-drop|validate|none
+      generate-ddl: false
+

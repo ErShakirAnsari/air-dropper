@@ -1,5 +1,21 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/greedy_ghost_token
+    username: shakir
+    password: "Apple#1M"
 
-tgb:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate #create|update|create-drop|validate|none
+
+
+telegram:
   bot:
     token: 5901451996:AAGe8LRa3cGbYZvjHTSf69Rcw5kv7xoUu_0
     username: ajaxer_test_bot
+
+jobs:
+  requestJob:
+    cron: "* * * * * *" # each second

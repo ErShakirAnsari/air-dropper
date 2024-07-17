@@ -1,7 +1,7 @@
 package org.ajaxer.tgb.configs;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ajaxer.tgb.core.AirDropperBot;
+import org.ajaxer.tgb.core.GreedyGhostTokenBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -17,10 +17,10 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class BotConfig
 {
 	@Autowired
-	public void startBot(AirDropperBot airDropperBot) throws TelegramApiException
+	public void startBot(GreedyGhostTokenBot greedyGhostTokenBot) throws TelegramApiException
 	{
 		TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-		botsApi.registerBot(airDropperBot);
-		log.info("airDropperBot: {}", airDropperBot.getMe());
+		botsApi.registerBot(greedyGhostTokenBot);
+		log.info("airDropperBot: {}", greedyGhostTokenBot.getMe());
 	}
 }
