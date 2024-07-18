@@ -1,7 +1,7 @@
 server:
   port: 9091
   servlet:
-    contextPath: /greedy-ghost-token
+    contextPath: /ghost-token
 
 spring:
   profiles:
@@ -20,3 +20,8 @@ spring:
       ddl-auto: validate #create|update|create-drop|validate|none
       generate-ddl: false
 
+logging:
+  level:
+    org:
+      ajaxer:
+        tgb: INFO

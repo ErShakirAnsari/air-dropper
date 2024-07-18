@@ -7,10 +7,9 @@ import lombok.ToString;
  * @since 2024-07-17
  */
 @ToString
-public class UserPointDto
+public class UserDailyTokenDto
 {
-	public long points;
-	public String pointDescription;
+	public long lastClaimedOn;
 
 	//super class
 	public Long id;

@@ -1,6 +1,6 @@
 package org.ajaxer.tgb.utility;
 
-import java.text.NumberFormat;
+import org.ajaxer.simple.utils.NumberUtils;
 
 /**
  * @author Shakir Ansari
@@ -18,7 +18,7 @@ public class CommonUtils
 	{
 		try
 		{
-			return NumberFormat.getNumberInstance().format(number);
+			return NumberUtils.toLocalNumber(number);
 		} catch (Exception e)
 		{
 			return String.valueOf(number);

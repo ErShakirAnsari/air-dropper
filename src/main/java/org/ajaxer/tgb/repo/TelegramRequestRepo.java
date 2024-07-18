@@ -1,7 +1,6 @@
 package org.ajaxer.tgb.repo;
 
 import org.ajaxer.tgb.entities.TelegramRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @since 2024-07-17
  */
 @Repository
-public interface TelegramRequestRepo extends JpaRepository<TelegramRequest, Integer>
+public interface TelegramRequestRepo extends IJpaRepository<TelegramRequest>
 {
 	List<TelegramRequest> findAllByStepOrderByCreatedOn(char step);
 }
