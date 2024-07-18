@@ -1,0 +1,15 @@
+
+###
+GET http://localhost:9091/ghost-token/daily-tokens/available
+Authorization: Bearer cXVlcnlfaWQ9QUFGeTFDc25BQUFBQUhMVUt5ZVhaT05uJnVzZXI9JTdCJTIyaWQlMjIlM0E2NTcxODM4NTglMkMlMjJmaXJzdF9uYW1lJTIyJTNBJTIyU2hha2lyJTIyJTJDJTIybGFzdF9uYW1lJTIyJTNBJTIyQW5zYXJpJTIyJTJDJTIydXNlcm5hbWUlMjIlM0ElMjJlcnNoYWtpcmFuc2FyaSUyMiUyQyUyMmxhbmd1YWdlX2NvZGUlMjIlM0ElMjJlbiUyMiUyQyUyMmFsbG93c193cml0ZV90b19wbSUyMiUzQXRydWUlN0QmYXV0aF9kYXRlPTE3MjEyOTI3NDUmaGFzaD1hZDg5ZDdmZmMyYzYwYmFiYWM4ZGY5NzliZmQzZGM1NzRlODRmMGJlN2RmYjgyNTFkNzhkNmM1YjUwMDdiZmEy
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+###
+POST http://localhost:9091/ghost-token/daily-tokens/claim
+Authorization: Bearer cXVlcnlfaWQ9QUFGeTFDc25BQUFBQUhMVUt5ZVhaT05uJnVzZXI9JTdCJTIyaWQlMjIlM0E2NTcxODM4NTglMkMlMjJmaXJzdF9uYW1lJTIyJTNBJTIyU2hha2lyJTIyJTJDJTIybGFzdF9uYW1lJTIyJTNBJTIyQW5zYXJpJTIyJTJDJTIydXNlcm5hbWUlMjIlM0ElMjJlcnNoYWtpcmFuc2FyaSUyMiUyQyUyMmxhbmd1YWdlX2NvZGUlMjIlM0ElMjJlbiUyMiUyQyUyMmFsbG93c193cml0ZV90b19wbSUyMiUzQXRydWUlN0QmYXV0aF9kYXRlPTE3MjEyOTI3NDUmaGFzaD1hZDg5ZDdmZmMyYzYwYmFiYWM4ZGY5NzliZmQzZGM1NzRlODRmMGJlN2RmYjgyNTFkNzhkNmM1YjUwMDdiZmEy
+
