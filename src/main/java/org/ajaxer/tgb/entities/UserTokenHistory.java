@@ -12,8 +12,8 @@ import org.ajaxer.tgb.constants.TokenDescription;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "user_tokens")
-public class UserToken extends AbstractCreatorEntity
+@Table(name = "user_token_history")
+public class UserTokenHistory extends AbstractCreatorEntity
 {
 	@Column(name = "tokens")
 	private long token;

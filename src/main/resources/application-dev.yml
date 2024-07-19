@@ -12,7 +12,7 @@ spring:
 
 ghost:
   dailyTokenTime: 22 # in hours
-  allowedOriginPattern: https://rr5h5z3r-43221.inc1.devtunnels.ms
+  allowedOriginPattern: "https://rr5h5z3r-43221.inc1.devtunnels.ms"
 
 telegram:
   bot:

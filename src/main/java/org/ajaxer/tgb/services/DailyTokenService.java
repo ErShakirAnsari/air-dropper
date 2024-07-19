@@ -1,11 +1,17 @@
 package org.ajaxer.tgb.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ajaxer.tgb.dto.ResponseDto;
+import org.ajaxer.simple.utils.dtos.ResponseDto;
+import org.ajaxer.tgb.constants.Token;
+import org.ajaxer.tgb.constants.TokenDescription;
 import org.ajaxer.tgb.entities.User;
 import org.ajaxer.tgb.entities.UserDailyToken;
+import org.ajaxer.tgb.entities.UserTokenHistory;
 import org.ajaxer.tgb.repo.UserDailyTokenRepository;
+import org.ajaxer.tgb.repo.UserRepository;
+import org.ajaxer.tgb.repo.UserTokenHistoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +27,10 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class DailyTokenService
 {
-	final private UserDailyTokenRepository repository;
+	final private UserDailyTokenRepository userDailyTokenRepository;
+	final private UserTokenHistoryRepository historyRepository;
+	final private UserRepository userRepository;
+
 	final private RequestService requestService;
 
 	@Value("${ghost.dailyTokenTime}")
@@ -30,10 +39,12 @@ public class DailyTokenService
 	public ResponseDto isRewardAvailable()
 	{
 		User loggedInUser = requestService.getLoggedInUser();
-		UserDailyToken userDailyToken = repository.findByCreatedBy(loggedInUser);
+		UserDailyToken userDailyToken = userDailyTokenRepository.findByCreatedBy(loggedInUser);
 
 		if (userDailyToken == null)
-			return new ResponseDto(true).setParameter("rewardAvailable", true);
+			return new ResponseDto(true)
+					.setParameter("rewardAvailable", true)
+					.setParameter("tokens", Token.DAILY_CLAIM_POINTS);
 
 		long lastClaimedOn = userDailyToken.getLastClaimedOn().getTime();
 		log.debug("lastClaimedOn: {}ms, lastClaimedOn: {}", lastClaimedOn, userDailyToken.getLastClaimedOn());
@@ -62,6 +73,7 @@ public class DailyTokenService
 		return new ResponseDto(true).setParameter("rewardAvailable", true);
 	}
 
+	@Transactional
 	public ResponseDto claim()
 	{
 		ResponseDto rewardAvailable = isRewardAvailable();
@@ -70,7 +82,9 @@ public class DailyTokenService
 			return new ResponseDto(false);
 
 		User loggedInUser = requestService.getLoggedInUser();
-		UserDailyToken userDailyToken = repository.findByCreatedBy(loggedInUser);
+
+		// -- 1
+		UserDailyToken userDailyToken = userDailyTokenRepository.findByCreatedBy(loggedInUser);
 
 		if (userDailyToken == null)
 		{
@@ -80,8 +94,24 @@ public class DailyTokenService
 
 		userDailyToken.setLastClaimedOn(new Timestamp(System.currentTimeMillis()));
 
-		repository.save(userDailyToken);
+		userDailyTokenRepository.saveAndFlush(userDailyToken);
 
-		return new ResponseDto(true);
+		// -- 2
+		UserTokenHistory history = new UserTokenHistory();
+		history.setToken(Token.DAILY_CLAIM_POINTS);
+		history.setTokenDescription(TokenDescription.DAILY_CLAIM);
+		history.setCreatedBy(loggedInUser);
+
+		historyRepository.saveAndFlush(history);
+
+		// -- 3
+		loggedInUser.setTotalTokens(loggedInUser.getTotalTokens() + history.getToken());
+		userRepository.saveAndFlush(loggedInUser);
+		
+		return new ResponseDto(true)
+				.setParameter("tokens", Token.DAILY_CLAIM_POINTS)
+				.setParameter("hour", dailyTokenTime)
+				.setParameter("minute", 0);
 	}
+
 }

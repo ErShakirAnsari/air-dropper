@@ -1,6 +1,6 @@
 package org.ajaxer.tgb.controller;
 
-import org.ajaxer.tgb.dto.ResponseDto;
+import org.ajaxer.simple.utils.dtos.ResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +18,6 @@ public class PublicController
 	@GetMapping("/health")
 	public ResponseDto getDailyRewards()
 	{
-		return new ResponseDto().setStatus(true).setParameter("date", new Date());
+		return new ResponseDto(true).setParameter("date", new Date());
 	}
 }

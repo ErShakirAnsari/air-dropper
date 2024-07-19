@@ -8,6 +8,8 @@ public interface Token
 {
 	int NEW_USER_POINTS = 10_000;
 
+	int DAILY_CLAIM_POINTS = 10_000;
+
 	int FRIEND_REFERRAL_POINTS = 5_000;
 
 	int SELF_REFERRAL_POINTS = 5_000;

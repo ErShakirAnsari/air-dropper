@@ -1,7 +1,7 @@
 package org.ajaxer.tgb.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ajaxer.tgb.dto.ResponseDto;
+import org.ajaxer.simple.utils.dtos.ResponseDto;
 import org.ajaxer.tgb.entities.User;
 import org.ajaxer.tgb.entities.UserDailyToken;
 import org.ajaxer.tgb.repo.UserDailyTokenRepository;

@@ -1,7 +1,7 @@
 package org.ajaxer.tgb.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.ajaxer.tgb.dto.ResponseDto;
+import org.ajaxer.simple.utils.dtos.ResponseDto;
 import org.ajaxer.tgb.services.DailyTokenService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

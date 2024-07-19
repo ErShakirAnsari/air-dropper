@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.ajaxer.simple.utils.NumberUtils;
-import org.ajaxer.tgb.dto.ResponseDto;
+import org.ajaxer.simple.utils.dtos.ResponseDto;
 import org.ajaxer.tgb.entities.User;
 import org.ajaxer.tgb.repo.UserRepository;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -113,6 +113,9 @@ public class AuthService
 		log.info("[{}], servletPath: {}", request.getMethod().toUpperCase(), servletPath);
 
 		if (servletPath.startsWith("/public"))
+			return true;
+
+		if ("OPTIONS".equalsIgnoreCase(request.getMethod()))
 			return true;
 
 		String authorization = request.getHeader("Authorization");

@@ -10,7 +10,6 @@ import org.ajaxer.tgb.services.TelegramRequestService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public class RequestJob
 	@Scheduled(cron = "${jobs.requestJob.cron}")
 	public void requestJobScheduler()
 	{
-		log.debug("requestJobScheduler is running: {}", new Date());
+		//log.debug("requestJobScheduler is running: {}", new Date());
 		List<TelegramRequest> allPendingRequests = telegramRequestService.getAllPendingRequests();
 		if (CollectionUtils.isBlank(allPendingRequests))
 			return;
