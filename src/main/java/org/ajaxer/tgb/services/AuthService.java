@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.ajaxer.simple.utils.NumberUtils;
 import org.ajaxer.simple.utils.dtos.ResponseDto;
+import org.ajaxer.tgb.dto.UserDto;
 import org.ajaxer.tgb.entities.User;
 import org.ajaxer.tgb.repo.UserRepository;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -34,12 +35,13 @@ public class AuthService
 	final private UserRepository userRepository;
 	final private ObjectMapper objectMapper;
 
+	final private UserService userService;
 	final private RequestService requestService;
 
 	@Value("${telegram.bot.token}")
 	private String botToken;
 
-	public Long getUserId(String telegramToken)
+	public Map<String, Object> getUserMap(String telegramToken)
 	{
 		String initData = new String(Base64.getDecoder().decode(telegramToken));
 		log.debug("initData: {}", telegramToken);
@@ -49,11 +51,13 @@ public class AuthService
 		Optional<NameValuePair> valuePair = params.stream().filter(pair -> pair.getName().equals("user")).findFirst();
 
 		String mapString = valuePair.map(NameValuePair::getValue).orElse(null);
+		log.debug("mapString: {}", mapString);
+		//{"id":657183858,"first_name":"Shakir","last_name":"Ansari","username":"ershakiransari","language_code":"en","allows_write_to_pm":true}
 
 		try
 		{
-			Map<String, Object> map = objectMapper.readValue(mapString, Map.class);
-			return NumberUtils.toLong(map.get("id").toString());
+			//noinspection unchecked
+			return objectMapper.readValue(mapString, Map.class);
 		} catch (JsonProcessingException e)
 		{
 			return null;
@@ -124,34 +128,50 @@ public class AuthService
 		if (authorization == null)
 			return sendErrorResponse(response,
 			                         new ResponseDto(false)
-					                         .setParameter("httpStatus", HttpServletResponse.SC_FORBIDDEN)
-					                         .setParameter("description", "Missing Bearer Token"));
+					                         .addParam("httpStatus", HttpServletResponse.SC_FORBIDDEN)
+					                         .addParam("description", "Missing Bearer Token"));
 
 		if (!authorization.startsWith(bearer))
 			return sendErrorResponse(response,
 			                         new ResponseDto(false)
-					                         .setParameter("httpStatus", HttpServletResponse.SC_UNAUTHORIZED)
-					                         .setParameter("description", "Malformed bearer token"));
+					                         .addParam("httpStatus", HttpServletResponse.SC_UNAUTHORIZED)
+					                         .addParam("description", "Malformed bearer token"));
 
 		String initDataB64 = authorization.substring(bearer.length());
 
 		if (!isValidTelegramToken(initDataB64))
 			return sendErrorResponse(response,
 			                         new ResponseDto(false)
-					                         .setParameter("httpStatus", HttpServletResponse.SC_UNAUTHORIZED)
-					                         .setParameter("description", "Invalid bearer token"));
+					                         .addParam("httpStatus", HttpServletResponse.SC_UNAUTHORIZED)
+					                         .addParam("description", "Invalid bearer token"));
+		Map<String, Object> userMap = getUserMap(initDataB64);
+		if (userMap == null)
+			return sendErrorResponse(response,
+			                         new ResponseDto(false)
+					                         .addParam("httpStatus", HttpServletResponse.SC_BAD_REQUEST)
+					                         .addParam("description", "User map not available"));
 
-		Long id = getUserId(initDataB64);
+		Long id = NumberUtils.toLong(userMap.get("id").toString());
 		log.debug("id: {}", id);
 
 		User user = userRepository.findByTelegramUserId(id).orElse(null);
 		log.debug("user: {}", user);
 
 		if (user == null)
-			return sendErrorResponse(response,
-			                         new ResponseDto(false)
-					                         .setParameter("httpStatus", HttpServletResponse.SC_UNAUTHORIZED)
-					                         .setParameter("description", "User not available"));
+		{
+			//{"id":657183858,"first_name":"Shakir","last_name":"Ansari","username":"ershakiransari","language_code":"en","allows_write_to_pm":true}
+
+			log.info("user {} not found, persisting in db", id);
+			UserDto userDto = new UserDto();
+			userDto.telegramUserId = id;
+			userDto.firstname = userMap.get("first_name").toString();
+			userDto.lastname = userMap.get("last_name").toString();
+			userDto.username = userMap.get("username").toString();
+
+			userService.saveUser(userDto);
+
+			user = userRepository.findByTelegramUserId(id).orElse(null);
+		}
 
 		requestService.setLoggedInUser(user);
 

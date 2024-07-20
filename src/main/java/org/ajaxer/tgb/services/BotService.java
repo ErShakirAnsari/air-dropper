@@ -116,7 +116,7 @@ public class BotService
 		userMessage += "Welcome to Ghost Airdrop, ";
 		if (uniqueUser)
 		{
-			userMessage += "You have earned " + Token.NEW_USER_POINTS + " tokens as joining bonus.";
+			userMessage += "You have earned " + CommonUtils.numberLocal(Token.NEW_USER_TOKENS) + " tokens as joining bonus.";
 			userMessage += System.lineSeparator();
 		}
 		userMessage += "You can start Ghost Combat and earn more points.";

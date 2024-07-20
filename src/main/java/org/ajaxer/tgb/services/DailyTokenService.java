@@ -43,8 +43,8 @@ public class DailyTokenService
 
 		if (userDailyToken == null)
 			return new ResponseDto(true)
-					.setParameter("rewardAvailable", true)
-					.setParameter("tokens", Token.DAILY_CLAIM_POINTS);
+					.addParam("rewardAvailable", true)
+					.addParam("tokens", Token.DAILY_CLAIM_TOKENS);
 
 		long lastClaimedOn = userDailyToken.getLastClaimedOn().getTime();
 		log.debug("lastClaimedOn: {}ms, lastClaimedOn: {}", lastClaimedOn, userDailyToken.getLastClaimedOn());
@@ -65,12 +65,12 @@ public class DailyTokenService
 			log.debug("hours: {}, minutes: {}", hours, minutes);
 
 			return new ResponseDto(false)
-					.setParameter("rewardAvailable", false)
-					.setParameter("hour", hours)
-					.setParameter("minute", minutes);
+					.addParam("rewardAvailable", false)
+					.addParam("hour", hours)
+					.addParam("minute", minutes);
 		}
 
-		return new ResponseDto(true).setParameter("rewardAvailable", true);
+		return new ResponseDto(true).addParam("rewardAvailable", true);
 	}
 
 	@Transactional
@@ -98,7 +98,7 @@ public class DailyTokenService
 
 		// -- 2
 		UserTokenHistory history = new UserTokenHistory();
-		history.setToken(Token.DAILY_CLAIM_POINTS);
+		history.setToken(Token.DAILY_CLAIM_TOKENS);
 		history.setTokenDescription(TokenDescription.DAILY_CLAIM);
 		history.setCreatedBy(loggedInUser);
 
@@ -107,11 +107,11 @@ public class DailyTokenService
 		// -- 3
 		loggedInUser.setTotalTokens(loggedInUser.getTotalTokens() + history.getToken());
 		userRepository.saveAndFlush(loggedInUser);
-		
+
 		return new ResponseDto(true)
-				.setParameter("tokens", Token.DAILY_CLAIM_POINTS)
-				.setParameter("hour", dailyTokenTime)
-				.setParameter("minute", 0);
+				.addParam("tokens", Token.DAILY_CLAIM_TOKENS)
+				.addParam("hour", dailyTokenTime)
+				.addParam("minute", 0);
 	}
 
 }

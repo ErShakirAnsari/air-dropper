@@ -20,7 +20,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.ajaxer.simple-utils>0.57.0</version.ajaxer.simple-utils>
+        <version.ajaxer.simple-utils>0.59.0</version.ajaxer.simple-utils>
     </properties>
 
     <dependencies>

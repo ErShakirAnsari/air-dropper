@@ -18,6 +18,6 @@ public class PublicController
 	@GetMapping("/health")
 	public ResponseDto getDailyRewards()
 	{
-		return new ResponseDto(true).setParameter("date", new Date());
+		return new ResponseDto(true).addParam("date", new Date());
 	}
 }

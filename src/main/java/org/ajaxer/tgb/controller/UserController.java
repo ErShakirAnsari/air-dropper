@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.ajaxer.simple.utils.dtos.ResponseDto;
 import org.ajaxer.tgb.dto.UserSyncRequestDto;
 import org.ajaxer.tgb.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Shakir Ansari
@@ -26,5 +23,11 @@ public class UserController
 	public ResponseDto sync(@RequestBody UserSyncRequestDto userSyncRequestDto)
 	{
 		return userService.sync(userSyncRequestDto);
+	}
+
+	@GetMapping("/referrals")
+	public ResponseDto getReferredFriends()
+	{
+		return userService.getReferredFriends();
 	}
 }

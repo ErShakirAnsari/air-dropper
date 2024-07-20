@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Map;
+
 @SpringBootTest
 public class AuthServiceTest
 {
@@ -33,14 +35,16 @@ public class AuthServiceTest
 	}
 
 	@Test
-	void shouldReturnValidId()
+	void shouldReturnValidMap()
 	{
 		//Arrange
 
 		//Action
-		Long id = authService.getUserId(tokenB64);
+		Map<String, Object> userMap = authService.getUserMap(tokenB64);
+
+		//{"id":657183858,"first_name":"Shakir","last_name":"Ansari","username":"ershakiransari","language_code":"en","allows_write_to_pm":true}
 
 		//Assert
-		Assertions.assertThat(id).isNotNull().isEqualTo(657183858);
+		Assertions.assertThat(userMap).isNotNull().containsKeys("id", "first_name");
 	}
 }
