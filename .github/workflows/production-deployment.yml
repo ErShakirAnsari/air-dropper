@@ -17,7 +17,7 @@ jobs:
         run: mvn clean package -Dmaven.test.skip=true --file pom.xml --no-transfer-progress
 
       - name: Listing
-        run: ls -laRh
+        run: ls -lah target
 
       - name: Copy final build [.jar, deployment.sh]
         uses: appleboy/scp-action@v0.1.6
