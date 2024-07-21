@@ -29,7 +29,7 @@
                 <directory>src/main/resources</directory>
                 <targetPath>${project.build.directory}</targetPath>
                 <includes>
-                    <include>backend-deployment.sh</include>
+                    <include>*.sh</include>
                 </includes>
             </resource>
         </resources>
