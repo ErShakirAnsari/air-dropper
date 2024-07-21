@@ -23,6 +23,16 @@
 
     <build>
         <finalName>${project.artifactId}-final</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}</targetPath>
+                <includes>
+                    <include>backend-deployment.sh</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>

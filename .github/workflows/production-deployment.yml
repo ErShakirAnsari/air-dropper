@@ -1,0 +1,42 @@
+name: Production Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  code-build:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+    container: ershakiransari/jdk:17-mvn3
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Build with Maven
+        run: mvn clean package -Dmaven.test.skip=true --file pom.xml --no-transfer-progress
+
+      - name: Listing
+        run: ls -laRh
+
+      - name: Copy final build [.jar, deployment.sh]
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          key: ${{ secrets.SCP_KEY }} #id_ed25519_github-scp-deployment
+          host: ${{ secrets.SCP_HOST }}
+          port: ${{ secrets.SCP_PORT }}
+          username: ${{ secrets.SCP_USERNAME }}
+          #source: "tests/a.txt,!tests/b.txt"
+          #source: "target/air-dropper-final.jar,backend-deployment-script.sh"
+          source: "target/air-dropper-final.jar"
+          target: "/tmp/github-actions/greedy-ghost/"
+          strip_components: 1 # this will remove 'target/' from path when copy
+
+      - name: Executing deployment shell script
+        uses: appleboy/ssh-action@v1.0.1
+        with:
+          key: ${{ secrets.SCP_KEY }} #id_ed25519_github-scp-deployment
+          host: ${{ secrets.SCP_HOST }}
+          port: ${{ secrets.SCP_PORT }}
+          username: ${{ secrets.SCP_USERNAME }}
+          script: chmod 744 /tmp/github-actions/greedy-ghost/backend-deployment.sh && /tmp/github-actions/greedy-ghost/backend-deployment.sh
