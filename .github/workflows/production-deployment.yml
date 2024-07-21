@@ -38,4 +38,4 @@ jobs:
           host: ${{ secrets.SCP_HOST }}
           port: ${{ secrets.SCP_PORT }}
           username: ${{ secrets.SCP_USERNAME }}
-          script: chmod 744 /tmp/github-actions/greedy-ghost/backend-deployment.sh && /tmp/github-actions/greedy-ghost/backend-deployment.sh
+          script: chmod 744 /tmp/github-actions/greedy-ghost/backend-deployment-script.sh && /tmp/github-actions/greedy-ghost/backend-deployment-script.sh
