@@ -27,8 +27,7 @@ jobs:
           port: ${{ secrets.SCP_PORT }}
           username: ${{ secrets.SCP_USERNAME }}
           #source: "tests/a.txt,!tests/b.txt"
-          #source: "target/air-dropper-final.jar,backend-deployment-script.sh"
-          source: "target/air-dropper-final.jar"
+          source: "target/air-dropper-final.jar,target/backend-deployment-script.sh"
           target: "/tmp/github-actions/greedy-ghost/"
           strip_components: 1 # this will remove 'target/' from path when copy
 
