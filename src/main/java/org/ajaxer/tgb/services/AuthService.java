@@ -164,9 +164,15 @@ public class AuthService
 			log.info("user {} not found, persisting in db", id);
 			UserDto userDto = new UserDto();
 			userDto.telegramUserId = id;
-			userDto.firstname = userMap.get("first_name").toString();
-			userDto.lastname = userMap.get("last_name").toString();
-			userDto.username = userMap.get("username").toString();
+
+			if (userMap.get("first_name") != null)
+				userDto.firstname = userMap.get("first_name").toString();
+
+			if (userMap.get("last_name") != null)
+				userDto.lastname = userMap.get("last_name").toString();
+
+			if (userMap.get("username") != null)
+				userDto.username = userMap.get("username").toString();
 
 			userService.saveUser(userDto);
 
