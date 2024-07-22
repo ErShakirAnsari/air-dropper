@@ -63,6 +63,7 @@ public class UserService
 
 		// -- create new user
 		User newUser = new User();
+		newUser.setUsername(userDto.username);
 		newUser.setTelegramUserId(userDto.telegramUserId);
 		newUser.setFirstname(userDto.firstname);
 		newUser.setLastname(userDto.lastname);
