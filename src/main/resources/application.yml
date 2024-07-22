@@ -27,7 +27,7 @@ logging:
   level:
     org:
       ajaxer:
-        tgb: INFO
+        tgb: DEBUG
   logback:
     rollingpolicy:
       max-file-size: 10MB
