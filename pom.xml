@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -28,11 +28,18 @@
         <finalName>${project.artifactId}-final</finalName>
         <resources>
             <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.yml</include>
+                </includes>
+            </resource>
+            <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <targetPath>${project.build.directory}</targetPath>
                 <includes>
-                    <include>*.sh</include>
+                    <include>backend-deployment-script.sh</include>
                 </includes>
             </resource>
         </resources>
