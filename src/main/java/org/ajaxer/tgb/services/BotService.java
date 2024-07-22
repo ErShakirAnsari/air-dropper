@@ -60,7 +60,7 @@ public class BotService
 		List<List<InlineKeyboardButton>> rows = new ArrayList<>();
 
 		// Add YouTube channel link button
-		String youtubeChannelUrl = "https://www.youtube.com/@IamGreedyGhost";
+		String youtubeChannelUrl = "https://www.youtube.com/@ghost-combat";
 		InlineKeyboardButton youtubeButton = new InlineKeyboardButton();
 		youtubeButton.setText("Subscribe YouTube Channel");
 		youtubeButton.setUrl(youtubeChannelUrl);
