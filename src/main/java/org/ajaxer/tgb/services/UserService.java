@@ -70,8 +70,8 @@ public class UserService
 		newUser.setTotalTokens(Token.NEW_USER_TOKENS);
 		newUser.setReferredBy(userDto.referredBy);
 
-		log.debug("newUser: {}", newUser);
 		userRepository.save(newUser);
+		log.debug("newUser: {}", newUser);
 
 		// -- UserTokenHistory
 		UserTokenHistory userTokenHistory = new UserTokenHistory();
@@ -90,25 +90,32 @@ public class UserService
 
 			if (referrer != null)
 			{
-				// for referrer
-				userTokenHistory = new UserTokenHistory();
-				userTokenHistory.setToken(Token.REFERRAL_TOKENS_TO_FRIEND);
-				userTokenHistory.setTokenDescription(TokenDescription.REFERRAL);
-				userTokenHistory.setCreatedBy(referrer);
+				if (referrer.getTelegramUserId() == newUser.getTelegramUserId())
+				{
+					newUser.setReferredBy(null);
+					userRepository.save(newUser);
+				} else
+				{
+					// for referrer
+					userTokenHistory = new UserTokenHistory();
+					userTokenHistory.setToken(Token.REFERRAL_TOKENS_TO_FRIEND);
+					userTokenHistory.setTokenDescription(TokenDescription.REFERRAL);
+					userTokenHistory.setCreatedBy(referrer);
 
-				userTokenHistoryRepository.save(userTokenHistory);
+					userTokenHistoryRepository.save(userTokenHistory);
 
-				increaseUserTotalPoints(referrer, Token.REFERRAL_TOKENS_TO_FRIEND);
+					increaseUserTotalPoints(referrer, Token.REFERRAL_TOKENS_TO_FRIEND);
 
-				// for newUser
-				userTokenHistory = new UserTokenHistory();
-				userTokenHistory.setToken(Token.REFERRAL_TOKENS_TO_SELF);
-				userTokenHistory.setTokenDescription(TokenDescription.REFERRAL);
-				userTokenHistory.setCreatedBy(newUser);
+					// for newUser
+					userTokenHistory = new UserTokenHistory();
+					userTokenHistory.setToken(Token.REFERRAL_TOKENS_TO_SELF);
+					userTokenHistory.setTokenDescription(TokenDescription.REFERRAL);
+					userTokenHistory.setCreatedBy(newUser);
 
-				userTokenHistoryRepository.save(userTokenHistory);
+					userTokenHistoryRepository.save(userTokenHistory);
 
-				increaseUserTotalPoints(newUser, Token.REFERRAL_TOKENS_TO_SELF);
+					increaseUserTotalPoints(newUser, Token.REFERRAL_TOKENS_TO_SELF);
+				}
 			}
 		}
 
