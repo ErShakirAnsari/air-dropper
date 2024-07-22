@@ -1,0 +1,4 @@
+###
+GET http://localhost:9091/ghost-token/public/health
+
+<> 2024-07-18T144512.404.json

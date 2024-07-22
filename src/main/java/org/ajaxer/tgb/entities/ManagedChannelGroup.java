@@ -1,5 +1,6 @@
 package org.ajaxer.tgb.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -15,4 +16,6 @@ import lombok.EqualsAndHashCode;
 @Table(name = "managed_channels_groups")
 public class ManagedChannelGroup extends AbstractEntity
 {
+	@Column(name = "url")
+	private String url;
 }

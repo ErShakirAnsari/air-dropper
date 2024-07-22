@@ -19,6 +19,9 @@ jobs:
       - name: Listing
         run: ls -lah target
 
+      - name: Listing
+        run: ls -lah target/classes
+
       - name: Copy final build [.jar, deployment.sh]
         uses: appleboy/scp-action@v0.1.6
         with:

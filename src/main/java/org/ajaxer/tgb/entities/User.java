@@ -20,20 +20,23 @@ public class User extends AbstractEntity
 	@Column(name = "telegram_user_id", nullable = false)
 	private long telegramUserId;
 
-	@Column(name = "username")
-	private String telegramUsername;
-
 	@Column(name = "firstname", nullable = false)
-	private String telegramFirstname;
+	private String firstname;
+
+	@Column(name = "username")
+	private String username;
 
 	@Column(name = "lastname")
-	private String telegramLastname;
+	private String lastname;
+
+	@Column(name = "total_tokens")
+	private long totalTokens;
 
 	/**
 	 * referral code will be @{{@link User#telegramUserId}}
 	 */
 	@Column(name = "referred_by")
-	private String referred_by;
+	private String referredBy;
 
 	@PrePersist
 	public void prePersist()

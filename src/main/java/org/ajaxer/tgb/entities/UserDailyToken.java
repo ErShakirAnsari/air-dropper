@@ -6,19 +6,18 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.sql.Timestamp;
+
 /**
  * @author Shakir Ansari
- * @since 2024-07-13
+ * @since 2024-07-18
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "points")
-public class Point extends AbstractEntity
+@Table(name = "user_daily_tokens")
+public class UserDailyToken extends AbstractCreatorEntity
 {
-	@Column(name = "points")
-	private long points;
-
-	@Column(name = "description")
-	private String description;
+	@Column(name = "last_claimed_on", nullable = false)
+	private Timestamp lastClaimedOn;
 }
