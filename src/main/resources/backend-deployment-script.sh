@@ -36,7 +36,7 @@ fi
 sleep 1
 
 echo "Copy.."
-cp /tmp/github-actions/media-manager/"$final_jar_name" /opt/ajaxer-org/springboot/"$jar_name"
+cp /tmp/github-actions/greedy-ghost/"$final_jar_name" /opt/ajaxer-org/springboot/"$jar_name"
 sleep 1
 
 echo "Deleting older backup files"
