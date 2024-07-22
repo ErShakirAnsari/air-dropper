@@ -28,7 +28,11 @@ total_checks=30
 
 # 2.
 echo "Backup.."
-mv /opt/ajaxer-org/springboot/"$jar_name" /opt/ajaxer-org/springboot/"$jar_name"_"$timestamp"
+if [ -e /opt/ajaxer-org/springboot/"$jar_name" ]; then
+  mv /opt/ajaxer-org/springboot/"$jar_name" /opt/ajaxer-org/springboot/"$jar_name"_"$timestamp"
+else
+  echo "File does not exist."
+fi
 sleep 1
 
 echo "Copy.."
