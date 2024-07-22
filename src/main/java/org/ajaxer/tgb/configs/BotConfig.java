@@ -19,8 +19,15 @@ public class BotConfig
 	@Autowired
 	public void startBot(GreedyGhostTokenBot greedyGhostTokenBot) throws TelegramApiException
 	{
-		TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-		botsApi.registerBot(greedyGhostTokenBot);
-		log.info("airDropperBot: {}", greedyGhostTokenBot.getMe());
+		try
+		{
+			TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+			botsApi.registerBot(greedyGhostTokenBot);
+			log.info("airDropperBot: {}", greedyGhostTokenBot.getMe());
+
+		} catch (Exception exception)
+		{
+			log.error(exception.getMessage(), exception);
+		}
 	}
 }
