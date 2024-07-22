@@ -1,0 +1,62 @@
+name: Release Management 🏷️
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Tag Version (add prefix v)
+        required: true
+      saveArtifact:
+        description: Attach final build with release
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+jobs:
+  release-management:
+    name: Git Tag 🏷️ & Release 💼
+    runs-on: ubuntu-latest
+    container: ershakiransari/jdk:11-mvn3
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      # Maven Clean Build
+      - name: Build with Maven without Tests
+        run: mvn clean package --file pom.xml -Dmaven.test.skip=true --no-transfer-progress
+
+      # Set Current Date As Env Variable
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+        # Creating A Release
+      - name: Creating Release ${{ github.event.inputs.version }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Version ${{ github.event.inputs.version }}
+          body: |
+            - Build Number: ${{ github.run_number }}
+            - Released on ${{ env.date_today }}
+          draft: false
+          prerelease: false
+
+      # Uploading Artifact to Release
+      - name: Upload Release Artifact ${{ github.event.inputs.version }}
+        if: "${{ github.event.inputs.saveArtifact == 'true' }}"
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./target/media-manager-final.jar
+          asset_name: media-manager-final-${{ github.event.inputs.version }}.jar
+          asset_content_type: application/java-archive
