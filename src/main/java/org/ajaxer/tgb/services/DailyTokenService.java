@@ -70,7 +70,9 @@ public class DailyTokenService
 					.addParam("minute", minutes);
 		}
 
-		return new ResponseDto(true).addParam("rewardAvailable", true);
+		return new ResponseDto(true)
+				.addParam("rewardAvailable", true)
+				.addParam("tokens", Token.DAILY_CLAIM_TOKENS);
 	}
 
 	@Transactional
