@@ -43,6 +43,19 @@ public class UserService
 		userRepository.save(user);
 	}
 
+	public User findByTelegramUserId(long telegramUserId)
+	{
+		return userRepository.findByTelegramUserId(telegramUserId).orElse(null);
+	}
+
+	public User findByReferredBy(String referredBy)
+	{
+		long referredByLong = NumberUtils.toLong(referredBy, -1L);
+		log.debug("referredByLong: {}", referredByLong);
+
+		return userRepository.findByTelegramUserId(referredByLong).orElse(null);
+	}
+
 	@Transactional
 	public boolean saveUser(UserDto userDto)
 	{

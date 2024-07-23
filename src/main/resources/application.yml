@@ -16,7 +16,7 @@ spring:
 
   jpa:
     defer-datasource-initialization: false
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: validate #create|update|create-drop|validate|none
       generate-ddl: false
@@ -45,5 +45,9 @@ telegram:
 
 jobs:
   requestJob:
-    cron: "* * * * * *" # each second
+    cron: "* * * * * *" # every second
+  dailyReferralCommissionJob:
+    cron: "0 0 1 * * *" # every day 1am
+    maxResultPerPage: 100
+    commissionPercentage: 10
 

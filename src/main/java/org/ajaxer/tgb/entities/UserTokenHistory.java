@@ -21,4 +21,7 @@ public class UserTokenHistory extends AbstractCreatorEntity
 	@Enumerated(EnumType.STRING)
 	@Column(name = "description")
 	private TokenDescription tokenDescription;
+
+	@Column(name = "comment")
+	private String comment;
 }
